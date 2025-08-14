@@ -1,8 +1,22 @@
-[gd_scene load_steps=10 format=3 uid="uid://dupmbcrykrdl7"]
+[gd_scene load_steps=17 format=3 uid="uid://dupmbcrykrdl7"]
 
 [ext_resource type="Material" uid="uid://dwubytu7pklwi" path="res://materials/Red_Material_01.tres" id="1_ti3hj"]
-[ext_resource type="Material" uid="uid://bp1osc4rhib4w" path="res://materials/lightgrey_material_01.tres" id="2_sxlrf"]
 [ext_resource type="Material" uid="uid://cy76elacrkk1w" path="res://materials/Blue_Material_01.tres" id="2_xctbh"]
+[ext_resource type="Script" uid="uid://dil7n7ih7ofck" path="res://player.gd" id="3_mph8e"]
+[ext_resource type="Material" uid="uid://bmvr8n78cofcw" path="res://materials/yellow_Material_01.tres" id="4_mph8e"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_mph8e"]
+sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+ground_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
+
+[sub_resource type="Sky" id="Sky_ohbof"]
+sky_material = SubResource("ProceduralSkyMaterial_mph8e")
+
+[sub_resource type="Environment" id="Environment_mq80i"]
+background_mode = 2
+sky = SubResource("Sky_ohbof")
+tonemap_mode = 2
+glow_enabled = true
 
 [sub_resource type="BoxMesh" id="BoxMesh_xctbh"]
 size = Vector3(30, 30, 30)
@@ -20,13 +34,27 @@ size = Vector3(4, 0.3, 4)
 [sub_resource type="BoxShape3D" id="BoxShape3D_mq80i"]
 size = Vector3(4, 0.3, 4)
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xctbh"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_sxlrf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mph8e"]
+radius = 0.587746
+
 [node name="Node3D" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_mq80i")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+shadow_enabled = true
 
 [node name="Floor" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.9128, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
-material_override = ExtResource("2_sxlrf")
+material_override = ExtResource("2_xctbh")
 mesh = SubResource("BoxMesh_xctbh")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
@@ -36,7 +64,7 @@ shape = SubResource("BoxShape3D_sxlrf")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.62738, 0.556204, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Box_1m"]
-material_override = ExtResource("2_xctbh")
+material_override = ExtResource("1_ti3hj")
 mesh = SubResource("BoxMesh_mph8e")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Box_1m"]
@@ -51,3 +79,32 @@ mesh = SubResource("BoxMesh_ohbof")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Plattform"]
 shape = SubResource("BoxShape3D_mq80i")
+
+[node name="Player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.43785, 0)
+script = ExtResource("3_mph8e")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = ExtResource("4_mph8e")
+mesh = SubResource("CapsuleMesh_xctbh")
+
+[node name="EyesMesh" type="MeshInstance3D" parent="Player/BodyMesh"]
+transform = Transform3D(0.918936, 0, 0, 0, 0.198117, 0, 0, 0, 0.535664, 0, 0.43682, -0.269113)
+material_override = ExtResource("1_ti3hj")
+mesh = SubResource("CapsuleMesh_sxlrf")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_mph8e")
+
+[node name="CameraOrigin" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4253, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CameraOrigin"]
+spring_length = 2.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraOrigin/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
