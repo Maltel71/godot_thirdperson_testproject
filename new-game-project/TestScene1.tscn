@@ -1,0 +1,53 @@
+[gd_scene load_steps=10 format=3 uid="uid://dupmbcrykrdl7"]
+
+[ext_resource type="Material" uid="uid://dwubytu7pklwi" path="res://materials/Red_Material_01.tres" id="1_ti3hj"]
+[ext_resource type="Material" uid="uid://bp1osc4rhib4w" path="res://materials/lightgrey_material_01.tres" id="2_sxlrf"]
+[ext_resource type="Material" uid="uid://cy76elacrkk1w" path="res://materials/Blue_Material_01.tres" id="2_xctbh"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_xctbh"]
+size = Vector3(30, 30, 30)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_sxlrf"]
+size = Vector3(30, 30, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_mph8e"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ohbof"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_ohbof"]
+size = Vector3(4, 0.3, 4)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_mq80i"]
+size = Vector3(4, 0.3, 4)
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Floor" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -14.9128, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Floor"]
+material_override = ExtResource("2_sxlrf")
+mesh = SubResource("BoxMesh_xctbh")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Floor"]
+shape = SubResource("BoxShape3D_sxlrf")
+
+[node name="Box_1m" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.62738, 0.556204, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Box_1m"]
+material_override = ExtResource("2_xctbh")
+mesh = SubResource("BoxMesh_mph8e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Box_1m"]
+shape = SubResource("BoxShape3D_ohbof")
+
+[node name="Plattform" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.62738, 1.45063, 3.8751)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Plattform"]
+material_override = ExtResource("1_ti3hj")
+mesh = SubResource("BoxMesh_ohbof")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Plattform"]
+shape = SubResource("BoxShape3D_mq80i")
