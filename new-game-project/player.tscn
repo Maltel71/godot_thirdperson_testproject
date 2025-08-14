@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://bj26dyg5ga08s"]
+
+[ext_resource type="Script" uid="uid://dil7n7ih7ofck" path="res://player.gd" id="1_i3pqv"]
+[ext_resource type="Material" uid="uid://bmvr8n78cofcw" path="res://materials/yellow_Material_01.tres" id="2_hqtel"]
+[ext_resource type="Material" uid="uid://dwubytu7pklwi" path="res://materials/Red_Material_01.tres" id="3_sweqy"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_xctbh"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_sxlrf"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mph8e"]
+radius = 0.587746
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_i3pqv")
+
+[node name="BodyMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+material_override = ExtResource("2_hqtel")
+mesh = SubResource("CapsuleMesh_xctbh")
+
+[node name="EyesMesh" type="MeshInstance3D" parent="BodyMesh"]
+transform = Transform3D(0.918936, 0, 0, 0, 0.198117, 0, 0, 0, 0.535664, 0, 0.43682, -0.269113)
+material_override = ExtResource("3_sweqy")
+mesh = SubResource("CapsuleMesh_sxlrf")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_mph8e")
+
+[node name="CameraOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4253, 0)
+
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraOrigin"]
+spring_length = 5.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="CameraOrigin/SpringArm3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
