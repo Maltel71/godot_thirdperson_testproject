@@ -1,12 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bj26dyg5ga08s"]
+[gd_scene load_steps=4 format=3 uid="uid://bj26dyg5ga08s"]
 
 [ext_resource type="Script" uid="uid://dil7n7ih7ofck" path="res://player.gd" id="1_i3pqv"]
-[ext_resource type="Material" uid="uid://bmvr8n78cofcw" path="res://materials/yellow_Material_01.tres" id="2_hqtel"]
-[ext_resource type="Material" uid="uid://dwubytu7pklwi" path="res://materials/Red_Material_01.tres" id="3_sweqy"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_xctbh"]
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_sxlrf"]
+[ext_resource type="PackedScene" uid="uid://dguiuygfu6icb" path="res://models/player/char_player_bearman1_mesh_v2.glb" id="2_onrkg"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_mph8e"]
 radius = 0.587746
@@ -14,16 +9,68 @@ radius = 0.587746
 [node name="Player" type="CharacterBody3D"]
 script = ExtResource("1_i3pqv")
 
-[node name="BodyMesh" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-material_override = ExtResource("2_hqtel")
-mesh = SubResource("CapsuleMesh_xctbh")
+[node name="char_player_bearman1_mesh_v2" parent="." instance=ExtResource("2_onrkg")]
 
-[node name="EyesMesh" type="MeshInstance3D" parent="BodyMesh"]
-transform = Transform3D(0.918936, 0, 0, 0, 0.198117, 0, 0, 0, 0.535664, 0, 0.43682, -0.269113)
-material_override = ExtResource("3_sweqy")
-mesh = SubResource("CapsuleMesh_sxlrf")
-skeleton = NodePath("../..")
+[node name="Armature" parent="char_player_bearman1_mesh_v2" index="0"]
+transform = Transform3D(-1, 0, -3.89414e-07, 0, 1, 0, 3.89414e-07, 0, -1, 0, 0, 0)
+
+[node name="Skeleton3D" parent="char_player_bearman1_mesh_v2/Armature" index="0"]
+bones/6/rotation = Quaternion(0.711419, 0, 0, 0.702769)
+bones/13/rotation = Quaternion(0.705426, -0.0487262, -0.705085, -0.0534301)
+bones/14/rotation = Quaternion(-0.0371718, -0.000185643, 0.00167077, 0.999307)
+bones/19/rotation = Quaternion(-0.707078, 0.00637172, 0.707078, -0.00637171)
+bones/20/rotation = Quaternion(-1.23728e-09, -1.2245e-10, -0.0282266, 0.999602)
+bones/23/rotation = Quaternion(0.705426, 0.0487262, 0.705085, -0.0534301)
+bones/24/rotation = Quaternion(-0.0371718, 0.000185643, -0.00167077, 0.999307)
+bones/29/rotation = Quaternion(0.707078, 0.00637172, 0.707078, 0.00637171)
+bones/30/rotation = Quaternion(-1.23728e-09, 1.22453e-10, 0.0282266, 0.999602)
+bones/34/position = Vector3(0.121869, 0.114483, -0.00809872)
+bones/34/rotation = Quaternion(0.531679, 0.466173, 0.53168, 0.466173)
+bones/36/position = Vector3(-0.11427, 0.114483, -0.00809872)
+bones/36/rotation = Quaternion(-0.531679, 0.466173, 0.53168, -0.466173)
+bones/38/rotation = Quaternion(-0.5, 0.5, 0.5, -0.5)
+
+[node name="Nose" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 1.19209e-07, 0, -1.19209e-07, 1, 0, -1.19209e-07, 1.19209e-07)
+
+[node name="EyeL" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.98023e-08)
+
+[node name="HandR" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="6"]
+transform = Transform3D(1, -2.98023e-08, 1.11155e-07, 4.47035e-08, 1, -4.1262e-08, 2.44472e-09, 2.76123e-08, 1, 2.98023e-08, 0, -4.65661e-09)
+
+[node name="ArmLowerR" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="7"]
+transform = Transform3D(1, -7.45058e-09, 1.46293e-07, 4.47035e-08, 1, 1.69381e-09, -3.24843e-08, -7.53714e-09, 1, 8.9407e-08, -1.19209e-07, 4.42378e-08)
+
+[node name="ArmR" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="8"]
+transform = Transform3D(1, -1.49012e-08, -2.33933e-07, 2.98023e-08, 1, 3.1354e-08, 1.20956e-07, -3.1665e-08, 1, 8.9407e-08, 2.38419e-07, 4.65661e-08)
+
+[node name="LegLowerR" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="9"]
+transform = Transform3D(1, -3.69276e-09, 1.21545e-10, 6.12395e-09, 1, 1.8537e-05, 1.15818e-11, -1.85296e-05, 1, 7.45058e-09, -2.68221e-07, 2.13226e-06)
+
+[node name="LegR" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="10"]
+transform = Transform3D(1, 8.09327e-09, 1.19111e-07, -6.94788e-09, 1, -1.61324e-05, -5.95924e-08, 1.61342e-05, 1, 7.45058e-09, -5.96046e-08, -1.24595e-05)
+
+[node name="HandL" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="11"]
+transform = Transform3D(1, 2.98023e-08, -1.11111e-07, -4.47035e-08, 1, -4.17276e-08, -2.48838e-09, 2.80761e-08, 1, -8.9407e-08, 5.96046e-08, -4.42378e-09)
+
+[node name="ArmLowerL" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="12"]
+transform = Transform3D(1, 7.45058e-09, -1.46293e-07, -4.47035e-08, 1, 1.69381e-09, 3.24843e-08, -7.53714e-09, 1, -1.19209e-07, -5.96046e-08, 4.70318e-08)
+
+[node name="Cube_053" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="13"]
+transform = Transform3D(1, 1.49012e-08, 3.58301e-07, -2.98023e-08, 1, 4.29356e-09, -3.59374e-07, -1.67638e-08, 1, -5.96046e-08, 1.19209e-07, 4.79631e-08)
+
+[node name="LegLowerL" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="14"]
+transform = Transform3D(1, 3.69276e-09, -1.21553e-10, -6.12395e-09, 1, 1.85333e-05, -1.15747e-11, -1.85221e-05, 1, -2.98023e-08, -2.68221e-07, 2.12761e-06)
+
+[node name="LegL" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="15"]
+transform = Transform3D(1, -8.09327e-09, -1.19111e-07, 6.94788e-09, 1, -1.61361e-05, 5.95924e-08, 1.6138e-05, 1, -2.23517e-08, -5.96046e-08, -1.24606e-05)
+
+[node name="FootL" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="17"]
+transform = Transform3D(1.00001, -7.20604e-07, -6.84437e-07, 6.24831e-07, 1, -6.85453e-07, 6.11637e-07, 4.91738e-07, 1, -1.20699e-06, -2.68221e-07, -1.4808e-07)
+
+[node name="FootR" parent="char_player_bearman1_mesh_v2/Armature/Skeleton3D" index="18"]
+transform = Transform3D(1.00001, 7.20604e-07, 6.84437e-07, -6.24831e-07, 1, -6.85453e-07, -6.11637e-07, 4.91738e-07, 1, 1.11759e-06, -2.6077e-07, -1.4063e-07)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -38,3 +85,5 @@ margin = 0.5
 
 [node name="Camera3D" type="Camera3D" parent="CameraOrigin/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
+
+[editable path="char_player_bearman1_mesh_v2"]
