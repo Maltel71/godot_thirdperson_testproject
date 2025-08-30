@@ -9,13 +9,14 @@ const JUMP_VELOCITY = 5.5
 
 # On-ready variables to get node references
 @onready var pivot = $CameraOrigin
-@onready var anim_player = $char_player_bearman1_mesh_v2/AnimationPlayer
+@onready var anim_tree = $char_player_bearman1_mesh_v3/AnimationTree
 
 # State variables for animation logic
 var was_on_floor = false
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	anim_tree.active = true # Activate the AnimationTree on start
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -45,32 +46,22 @@ func _physics_process(delta: float) -> void:
 	was_on_floor = is_on_floor()
 
 func _animate():
-	# If a non-looping animation is already playing (like a landing or interact), don't interrupt it.
-	# We can check if the current animation is our jump/inair animations to allow transition.
-	if anim_player.is_playing() and (anim_player.current_animation == "bearman1_jump" or anim_player.current_animation == "bearman1_inair"):
-		pass
-	elif anim_player.is_playing() and not anim_player.current_animation.begins_with("bearman1"):
-		# If you add other one-shot animations, this check will prevent them from being overridden.
-		# You can adjust this to your needs.
-		return
-	
 	if is_on_floor():
-		# Play landing animation once when we first touch the floor
-		if not was_on_floor:
-			anim_player.play("bearman1_landing")
-			return # Exit the function to avoid overriding the landing animation
-
-		# Check if the character is moving
-		if velocity.length() > 0.1:
-			anim_player.play("bearman1_run")
-		else:
-			anim_player.play("bearman1_idle")
+		# Get the linear speed (horizontal movement only)
+		var speed_h = Vector3(velocity.x, 0, velocity.z).length()
+		
+		# Calculate the blend value based on speed.
+		# It's clamped between 0 and 1, where 0 is idle and 1 is run.
+		var blend_value = clamp(speed_h / SPEED, 0.0, 1.0)
+		
+		# Set the blend parameter of the Blend2 node in the AnimationTree.
+		# Make sure the node is named "Blend2" in your AnimationTree setup.
+		anim_tree.set("parameters/Blend2/blend", blend_value)
 	else: # Player is in the air
-		# Check if the character is moving up (jumping) or down (falling)
-		if velocity.y > 0:
-			anim_player.play("bearman1_jump")
-		else:
-			anim_player.play("bearman1_inair")
+		# Note: The provided AnimationTree setup only covers idle/walk.
+		# Jumping/falling would require an AnimationNodeStateMachine or similar.
+		# For now, we do nothing when in the air.
+		pass
 
 func _input(event):
 	# Handle mouse movement for camera rotation
