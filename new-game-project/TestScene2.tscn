@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://b6tqyn1eg2tcr"]
+[gd_scene load_steps=40 format=3 uid="uid://b6tqyn1eg2tcr"]
 
 [ext_resource type="Material" uid="uid://bp1osc4rhib4w" path="res://materials/lightgrey_material_01.tres" id="1_8f8h1"]
 [ext_resource type="PackedScene" uid="uid://bj26dyg5ga08s" path="res://player.tscn" id="2_tcixb"]
@@ -14,6 +14,12 @@
 [ext_resource type="Script" uid="uid://dnejc7n7etiyd" path="res://addons/proton_scatter/src/shapes/box_shape.gd" id="12_wt6hf"]
 [ext_resource type="PackedScene" uid="uid://cckkjq1pkxjkc" path="res://models/models_scenes/rock2.tscn" id="13_bsedy"]
 [ext_resource type="VoxelGIData" uid="uid://lpyjstfb5561" path="res://bake_data/TestScene2.VoxelGI_data.res" id="14_656vk"]
+[ext_resource type="Shader" uid="uid://cuhljiubtrlir" path="res://vfx_smoke_shader.tres" id="15_m0t1o"]
+[ext_resource type="Texture2D" uid="uid://b0xijy1btu7u5" path="res://textures/T_Noise_001R.png" id="16_ur6l8"]
+[ext_resource type="ArrayMesh" uid="uid://gfqg5ajnnrga" path="res://models/Cloud_v2.obj" id="17_wt6hf"]
+[ext_resource type="AudioStream" uid="uid://bviesiv0mwdyf" path="res://audio/sfx/SFX_Ambience_Fire_01.wav" id="18_jf7kr"]
+[ext_resource type="PackedScene" uid="uid://cdia1myhy3nxd" path="res://models/env_treedead1_mesh_01_v1.glb" id="19_2gahi"]
+[ext_resource type="AudioStream" uid="uid://1g108ge7yh72" path="res://audio/sfx/CaveWindAmbience.mp3" id="20_ur6l8"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qwmna"]
 sky_horizon_color = Color(0.662243, 0.671743, 0.686743, 1)
@@ -28,9 +34,10 @@ background_color = Color(0.0534209, 0.0534209, 0.0534209, 1)
 sky = SubResource("Sky_56ccv")
 tonemap_mode = 2
 glow_enabled = true
-fog_light_color = Color(0.193899, 0.213973, 0.245531, 1)
+fog_enabled = true
+fog_light_color = Color(0.0375554, 0.0451889, 0.0572107, 1)
 volumetric_fog_enabled = true
-volumetric_fog_density = 0.01
+volumetric_fog_density = 0.03
 
 [sub_resource type="BoxMesh" id="BoxMesh_ulghp"]
 size = Vector3(30, 1, 30)
@@ -38,27 +45,27 @@ size = Vector3(30, 1, 30)
 [sub_resource type="BoxShape3D" id="BoxShape3D_lf3qb"]
 size = Vector3(30, 1, 30)
 
-[sub_resource type="Resource" id="Resource_656vk"]
+[sub_resource type="Resource" id="Resource_ur6l8"]
 script = ExtResource("6_lfvh5")
-amount = 75
+amount = 200
 enabled = true
 override_global_seed = false
 custom_seed = 0
 restrict_height = true
 reference_frame = 1
 
-[sub_resource type="Resource" id="Resource_lfvh5"]
+[sub_resource type="Resource" id="Resource_wt6hf"]
 script = ExtResource("7_p6osl")
 position = Vector3(0.15, 0.15, 0.15)
 rotation = Vector3(0, 360, 0)
-scale = Vector3(0.1, 0.1, 0.1)
+scale = Vector3(2, 2, 2)
 enabled = true
 override_global_seed = false
 custom_seed = 0
 restrict_height = false
 reference_frame = 2
 
-[sub_resource type="Resource" id="Resource_p6osl"]
+[sub_resource type="Resource" id="Resource_jf7kr"]
 script = ExtResource("8_mqirf")
 iterations = 3
 offset_step = 0.2
@@ -70,7 +77,7 @@ custom_seed = 0
 restrict_height = true
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_mqirf"]
+[sub_resource type="Resource" id="Resource_2gahi"]
 script = ExtResource("9_n780m")
 ray_direction = Vector3(0, -1, 0)
 ray_length = 5.0
@@ -79,27 +86,78 @@ remove_points_on_miss = false
 align_with_collision_normal = false
 max_slope = 90.0
 collision_mask = 1
-exclude_mask = 0
+exclude_mask = 2
 enabled = true
 override_global_seed = false
 custom_seed = 0
 restrict_height = false
 reference_frame = 0
 
-[sub_resource type="Resource" id="Resource_n780m"]
+[sub_resource type="Resource" id="Resource_x60dt"]
 script = ExtResource("4_bsedy")
-stack = Array[ExtResource("5_656vk")]([SubResource("Resource_656vk"), SubResource("Resource_lfvh5"), SubResource("Resource_p6osl"), SubResource("Resource_mqirf")])
+stack = Array[ExtResource("5_656vk")]([SubResource("Resource_ur6l8"), SubResource("Resource_wt6hf"), SubResource("Resource_jf7kr"), SubResource("Resource_2gahi")])
 
 [sub_resource type="Resource" id="Resource_js3lv"]
 script = ExtResource("12_wt6hf")
 size = Vector3(30, 1, 30)
 metadata/_custom_type_script = "uid://dnejc7n7etiyd"
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wxhyu"]
+render_priority = 0
+shader = ExtResource("15_m0t1o")
+shader_parameter/texture_scale = Vector2(0.5, 0.5)
+shader_parameter/Dissolver_texture = ExtResource("16_ur6l8")
+
+[sub_resource type="Curve" id="Curve_6gfu3"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 0.376255), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_2y645"]
+texture_mode = 1
+curve = SubResource("Curve_6gfu3")
+
+[sub_resource type="Gradient" id="Gradient_0or8k"]
+offsets = PackedFloat32Array(0, 0.988391)
+colors = PackedColorArray(0.976909, 0.866857, 0.500008, 1, 0.584471, 0.162649, 0.134881, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_pu5xy"]
+gradient = SubResource("Gradient_0or8k")
+use_hdr = true
+
+[sub_resource type="Curve" id="Curve_trva1"]
+_data = [Vector2(0.0171607, 0.789215), 0.0, 0.328478, 0, 0, Vector2(1, 0.467116), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_7onxn"]
+curve = SubResource("Curve_trva1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_vn32d"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.5
+angle_min = -108.0
+angle_max = 108.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 3.0
+initial_velocity_max = 4.0
+gravity = Vector3(0, 0, 0)
+scale_max = 1.2
+scale_curve = SubResource("CurveTexture_7onxn")
+color_ramp = SubResource("GradientTexture1D_pu5xy")
+alpha_curve = SubResource("CurveTexture_2y645")
+
 [node name="TestScene2" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 light_energy = 0.01
+shadow_enabled = true
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
+visible = false
+light_energy = 2.0
 shadow_enabled = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -120,18 +178,18 @@ shape = SubResource("BoxShape3D_lf3qb")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0603171, 0.844718, 2.14409)
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.20304, 6.73706, -2.65846)
-light_energy = 1.872
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.97963, 1.86915, 2.28005)
+light_energy = 0.422
 omni_range = 10.8262
 
 [node name="OmniLight3D2" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.52618, 2.69867, 3.14015)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.67724, 1.10675, 4.87271)
 light_color = Color(0.803, 0.679687, 0.39778, 1)
 omni_range = 10.762
 
 [node name="ProtonScatter" type="Node3D" parent="."]
 script = ExtResource("3_8bema")
-modifier_stack = SubResource("Resource_n780m")
+modifier_stack = SubResource("Resource_x60dt")
 Performance/use_chunks = true
 Performance/chunk_dimensions = Vector3(15, 15, 15)
 metadata/_custom_type_script = "uid://bbq7vyl8h866a"
@@ -139,7 +197,7 @@ metadata/_custom_type_script = "uid://bbq7vyl8h866a"
 [node name="ScatterItem" type="Node3D" parent="ProtonScatter"]
 transform = Transform3D(0.993915, 0, 0, 0, 0.993915, 0, 0, 0, 0.993915, 0, 0, 0)
 script = ExtResource("10_m0t1o")
-source_scale_multiplier = 0.6
+source_scale_multiplier = 0.2
 path = "uid://tpvse1myjub5"
 
 [node name="ScatterShape" type="Node3D" parent="ProtonScatter"]
@@ -151,6 +209,64 @@ shape = SubResource("Resource_js3lv")
 [node name="Rock2" parent="." instance=ExtResource("13_bsedy")]
 transform = Transform3D(2.09347, 0, 0, 0, 1, 0, 0, 0, 2.25097, -7.73056, 0.620852, -0.292271)
 
+[node name="Rock3" parent="." instance=ExtResource("13_bsedy")]
+transform = Transform3D(1.40896, 0, 0, 0, 4.58898, 0, 0, 0, 12.6556, -13.2512, 0.620852, 0.652178)
+
+[node name="Rock5" parent="." instance=ExtResource("13_bsedy")]
+transform = Transform3D(-6.15876e-08, 0, 12.7493, 0, 4.58898, 0, -1.40896, 0, -5.57289e-07, 0.573735, 0.620852, 13.2539)
+
+[node name="Rock6" parent="." instance=ExtResource("13_bsedy")]
+transform = Transform3D(-6.15876e-08, 0, 12.4352, 0, 4.58898, 0, -1.40896, 0, -5.43558e-07, 0.573735, 0.620852, -12.8346)
+
+[node name="Rock4" parent="." instance=ExtResource("13_bsedy")]
+transform = Transform3D(1.40896, 0, 0, 0, 4.58898, 0, 0, 0, 12.4206, 12.8762, 0.620852, 0.644085)
+
+[node name="Rock7" parent="." instance=ExtResource("13_bsedy")]
+transform = Transform3D(1.40896, 0, 0, 0, 3.90714, 0, 0, 0, 3.16975, 4.75965, 0.420506, -4.79625)
+
+[node name="Rock8" parent="." instance=ExtResource("13_bsedy")]
+transform = Transform3D(0.560286, 0, -1.92562, 0, 2.07895, 0, 1.08549, 0, 0.993931, 1.95826, 0.420506, -4.79625)
+
 [node name="VoxelGI" type="VoxelGI" parent="."]
 size = Vector3(30, 20, 30)
 data = ExtResource("14_656vk")
+
+[node name="campfire" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.288, -0.133024, -6.19737)
+
+[node name="vfx_stylized_smoke" type="GPUParticles3D" parent="campfire"]
+material_override = SubResource("ShaderMaterial_wxhyu")
+amount = 20
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_vn32d")
+draw_pass_1 = ExtResource("17_wt6hf")
+
+[node name="camp_fire" type="AudioStreamPlayer3D" parent="campfire"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.306812, 1.15313, 0.182532)
+stream = ExtResource("18_jf7kr")
+volume_db = -5.0
+autoplay = true
+
+[node name="env_treedead1_mesh_01_v1" parent="campfire" instance=ExtResource("19_2gahi")]
+transform = Transform3D(1, 0, 0, 0, 0.353775, 0, 0, 0, 1, 0.720313, -1.23935, -0.24413)
+
+[node name="env_treedead1_mesh_01_v2" parent="campfire" instance=ExtResource("19_2gahi")]
+transform = Transform3D(-0.0360157, 0, 0.999351, 0.570716, 0.290411, 0.0205681, -0.820358, 0.202036, -0.029565, 0.720313, -1.23935, -0.722962)
+
+[node name="env_treedead1_mesh_01_v3" parent="campfire" instance=ExtResource("19_2gahi")]
+transform = Transform3D(-0.0360157, 0, 0.999351, 0.570716, 0.290411, 0.0205681, -0.820358, 0.202036, -0.029565, -0.849021, -1.23935, -0.420695)
+
+[node name="env_treedead1_mesh_01_v4" parent="campfire" instance=ExtResource("19_2gahi")]
+transform = Transform3D(0.393791, -0.0890198, -0.884088, 0.570716, 0.290411, 0.0205681, 0.720564, -0.181367, 0.466867, 0.494464, -1.23935, -0.074216)
+
+[node name="OmniLight3D" type="OmniLight3D" parent="campfire"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.065198, 1.48467, 0.143843)
+light_color = Color(0.9, 0.4356, 0.126, 1)
+light_energy = 12.03
+
+[node name="audio" type="Node3D" parent="."]
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="audio"]
+stream = ExtResource("20_ur6l8")
+autoplay = true
+panning_strength = 1.5
