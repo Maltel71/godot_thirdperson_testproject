@@ -98,7 +98,11 @@ playback_default_blend_time = 0.2
 [node name="camera_mount" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4253, 0)
 
-[node name="Camera3D" type="Camera3D" parent="camera_mount"]
+[node name="SpringArm3D" type="SpringArm3D" parent="camera_mount"]
+spring_length = 5.0
+margin = 0.5
+
+[node name="Camera3D" type="Camera3D" parent="camera_mount/SpringArm3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.608034, 3.96995)
 
 [editable path="visuals/char_player_bearman1_mesh_v3"]
