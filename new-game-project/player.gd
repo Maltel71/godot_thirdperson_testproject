@@ -13,6 +13,8 @@ var running_speed = 5.0
 
 var running = false;
 
+var is_locked = false
+
 @export var sens_horizontal = 0.2
 @export var sens_vertical = 0.2
 
@@ -26,6 +28,15 @@ func _input(event):
 		camera_mount.rotate_x(deg_to_rad(-event.relative.y*sens_vertical))
 
 func _physics_process(delta: float) -> void:
+	
+	if !animation_player.is_playing():
+		is_locked = false
+	
+	if Input.is_action_just_pressed("attack1"):
+		if animation_player.current_animation != "bearman1_interact":
+			animation_player.play("bearman1_interact")
+			is_locked = true
+	
 	if Input.is_action_pressed("run"):
 		SPEED = running_speed
 		running = true
@@ -46,22 +57,23 @@ func _physics_process(delta: float) -> void:
 	var input_dir := Input.get_vector("left", "right", "forward", "backward")
 	var direction := (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
-		if running:
-	
-			if animation_player.current_animation != "bearman1_run":
-				animation_player.play("bearman1_run")
-		else:
-			if animation_player.current_animation != "bearman1_walk":
-				animation_player.play("bearman1_walk")
-		
-		visuals.look_at(position + direction)
+		if !is_locked:
+			if running:
+				if animation_player.current_animation != "bearman1_run":
+					animation_player.play("bearman1_run")
+			else:
+				if animation_player.current_animation != "bearman1_walk":
+					animation_player.play("bearman1_walk")
+			visuals.look_at(position + direction)
 		
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 	else:
-		if animation_player.current_animation != "bearman1_idle":
-			animation_player.play("bearman1_idle")
+		if !is_locked:
+			if animation_player.current_animation != "bearman1_idle":
+				animation_player.play("bearman1_idle")
+			
 		velocity.x = move_toward(velocity.x, 0, SPEED)
 		velocity.z = move_toward(velocity.z, 0, SPEED)
-
-	move_and_slide()
+	if !is_locked:
+		move_and_slide()
