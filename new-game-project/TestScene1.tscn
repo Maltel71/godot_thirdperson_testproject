@@ -20,7 +20,7 @@
 [ext_resource type="ArrayMesh" uid="uid://gfqg5ajnnrga" path="res://models/Cloud_v2.obj" id="18_4mlg8"]
 [ext_resource type="PackedScene" uid="uid://cdia1myhy3nxd" path="res://models/env_treedead1_mesh_01_v1.glb" id="19_xp15r"]
 [ext_resource type="PackedScene" uid="uid://dguiuygfu6icb" path="res://models/player/char_player_bearman1_mesh_v2.glb" id="20_4mlg8"]
-[ext_resource type="Script" uid="uid://cq0gy7w6sfd7l" path="res://sceneswitcher.gd" id="20_e80af"]
+[ext_resource type="Script" path="res://sceneswitcher.gd" id="20_e80af"]
 [ext_resource type="VoxelGIData" uid="uid://cce70oq566o11" path="res://bake_data/TestScene1.VoxelGI_data.res" id="21_e80af"]
 [ext_resource type="PackedScene" uid="uid://cckkjq1pkxjkc" path="res://models/models_scenes/rock2.tscn" id="23_4txr7"]
 [ext_resource type="AudioStream" uid="uid://bviesiv0mwdyf" path="res://audio/sfx/SFX_Ambience_Fire_01.wav" id="24_rna7e"]

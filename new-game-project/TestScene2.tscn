@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://b6tqyn1eg2tcr"]
+[gd_scene load_steps=40 format=3 uid="uid://ciyurmqr2y6x8"]
 
 [ext_resource type="Material" uid="uid://bp1osc4rhib4w" path="res://materials/lightgrey_material_01.tres" id="1_8f8h1"]
 [ext_resource type="PackedScene" uid="uid://bj26dyg5ga08s" path="res://player.tscn" id="2_tcixb"]
@@ -268,5 +268,6 @@ light_energy = 12.03
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="audio"]
 stream = ExtResource("20_ur6l8")
+volume_db = -25.905
 autoplay = true
 panning_strength = 1.5
