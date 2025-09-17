@@ -25,6 +25,10 @@ window/size/mode=2
 
 enabled=PackedStringArray("res://addons/proton_scatter/plugin.cfg")
 
+[filesystem]
+
+import/blender/enabled=false
+
 [input]
 
 left={
