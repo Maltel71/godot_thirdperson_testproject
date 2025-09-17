@@ -3,6 +3,7 @@ extends CharacterBody3D
 @onready var camera_mount: Node3D = $camera_mount
 @onready var animation_player: AnimationPlayer = $visuals/char_player_bearman1_mesh_v3/AnimationPlayer
 @onready var visuals: Node3D = $visuals
+@onready var melee_collision: CollisionShape3D = $CollisionShape_Melee
 
 
 var SPEED = 2.5
@@ -18,9 +19,25 @@ var is_locked = false
 @export var sens_horizontal = 0.2
 @export var sens_vertical = 0.2
 
+# LOCK & HIDE CURSOR IN THE MIDDLE OF SCREEN ╰┈➤
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
+# ACTIVATE MELEE ATTACK —⟪=====>
+func activate_melee_attack():
+	print("Melee attack activated!")
+	melee_collision.disabled = false
+	await get_tree().create_timer(0.3).timeout
+	melee_collision.disabled = true
+	print("Melee attack deactivated!")
+
+func _process(delta):
+	if Input.is_action_just_pressed("attack1"):
+		if animation_player.current_animation != "bearman1_interact":
+			animation_player.play("bearman1_interact")
+			is_locked = true
+
+# CAMERA ROTATION
 func _input(event):
 	if event is InputEventMouseMotion:
 		rotate_y(deg_to_rad(-event.relative.x*sens_horizontal))
@@ -32,10 +49,6 @@ func _physics_process(delta: float) -> void:
 	if !animation_player.is_playing():
 		is_locked = false
 	
-	if Input.is_action_just_pressed("attack1"):
-		if animation_player.current_animation != "bearman1_interact":
-			animation_player.play("bearman1_interact")
-			is_locked = true
 	
 	if Input.is_action_pressed("run"):
 		SPEED = running_speed
